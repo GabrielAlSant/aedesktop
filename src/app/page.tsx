@@ -1,5 +1,5 @@
 import Card from "../../components/Cards";
-import MapCard from "../../components/MapCard";
+
 
 
 export default function Home() {
@@ -11,8 +11,6 @@ export default function Home() {
    <Card />
    <Card />
     </div>
-
-    <MapCard />
 
     
   </div>

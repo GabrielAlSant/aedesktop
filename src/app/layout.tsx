@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "../../components/Header";
-import 'leaflet/dist/leaflet.css';
+import "leaflet/dist/leaflet.css";
 
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header />
-        {children}
+        <div className="ml-80">{children}</div>
       </body>
     </html>
   );

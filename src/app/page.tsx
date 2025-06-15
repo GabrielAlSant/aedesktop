@@ -55,46 +55,45 @@ export default function VerBuracos() {
   }, []);
 
   useEffect(() => {
-    fetch("https://projeto-vias.vercel.app/RETORNARTODOSBURACOS")
+    fetch("https://projeto-vias-sjrv.vercel.app/RETORNARTODOSBURACOS")
       .then((res) => res.json())
       .then((json) => setMarkers(json));
     console.log(markers);
   }, [markers]);
 
   useEffect(() => {
-    fetch("https://projeto-vias.vercel.app/TOTALREPORT")
+    fetch("https://projeto-vias-sjrv.vercel.app/TOTALREPORT")
       .then((res) => res.json())
       .then((json) => setDashBoardData(json));
   }, []);
 
   useEffect(() => {
-    fetch("https://projeto-vias.vercel.app/SCOREVIAS")
+    fetch("https://projeto-vias-sjrv.vercel.app/SCOREVIAS")
       .then((res) => res.json())
       .then((json) => setRuasCriticas(json));
   }, []);
   return (
     <div>
-  <div className="flex">
+      <div className="flex">
         <div className="inline">
-        <div className="flex flex-wrap">
-          {dashBoardData && (
-            <Card
-              TotalReport={dashBoardData.TotalReport}
-              TotalReportAberto={dashBoardData.TotalReportAberto}
-              TotalReportFechado={dashBoardData.TotalReportFechado}
-            />
-          )}
+          <div className="flex flex-wrap">
+            {dashBoardData && (
+              <Card
+                TotalReport={dashBoardData.TotalReport}
+                TotalReportAberto={dashBoardData.TotalReportAberto}
+                TotalReportFechado={dashBoardData.TotalReportFechado}
+              />
+            )}
+          </div>
+          <div className="inline">
+            {markers && <Maps markers={markers} location={location} />}
+          </div>
         </div>
-      <div className="inline">
-        {markers && <Maps markers={markers} location={location} />}
+
+        <div className="inline">
+          {ruasCriticas && <RuasCriticas ruas={ruasCriticas} />}
+        </div>
       </div>
-      </div>
-      
-      <div className="inline">
-       {ruasCriticas && <RuasCriticas ruas={ruasCriticas} />}
-      </div>
-  </div>
-     
     </div>
   );
 }

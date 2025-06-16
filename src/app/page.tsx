@@ -65,13 +65,13 @@ export default function VerBuracos() {
     fetch("https://projeto-vias-sjrv.vercel.app/TOTALREPORT")
       .then((res) => res.json())
       .then((json) => setDashBoardData(json));
-  }, []);
+  }, [markers]);
 
   useEffect(() => {
     fetch("https://projeto-vias-sjrv.vercel.app/SCOREVIAS")
       .then((res) => res.json())
       .then((json) => setRuasCriticas(json));
-  }, []);
+  }, [markers]);
   return (
     <div>
       <div className="flex">

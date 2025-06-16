@@ -76,7 +76,7 @@ export default function VerBuracos() {
     <div>
       <div className="flex">
         <div className="inline">
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap ">
             {dashBoardData && (
               <Card
                 TotalReport={dashBoardData.TotalReport}

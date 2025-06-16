@@ -17,6 +17,7 @@ interface Props {
 export default function RuasCriticas({ ruas }: Props) {
   return (
     <div className="h-[650px] mt-5 w-[500px] overflow-y-scroll border border-gray-300 rounded-lg p-4 bg-white dark:bg-gray-800 shadow-md">
+    <div className="text-white text-2xl">Ruas mais criticas</div>
       {ruas.map((rua) => (
         <div
           key={rua.id}

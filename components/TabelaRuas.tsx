@@ -47,45 +47,65 @@ export default function TabelaRuas({ dados }: Props) {
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
-      <input
-        type="text"
+      
+<div className=" mx-auto">   
+    <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+    <div className="relative">
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            </svg>
+        </div>
+        <input type="text"
         placeholder="Filtrar por nome da rua"
         value={filtro}
         onChange={(e) => setFiltro(e.target.value)}
-        className="mb-4 w-full p-2 border rounded shadow"
-      />
+         className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+        <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+    </div>
+</div>
 
-      <table className="w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border p-2">Nome</th>
-            <th className="border p-2">Ações</th>
-          </tr>
+
+    <div className="relative overflow-x-auto mt-5">
+    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" className="px-6 py-3">
+                    Cidade
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Ação
+                </th>
+            </tr>
         </thead>
         <tbody>
-          {ruasFiltradas.map((rua) => (
-            <tr key={rua._id} className="hover:bg-gray-50">
-              <td className="border p-2">{rua.nome}</td>
-              <td className="border p-2 text-center">
-                <button
+  {ruasFiltradas.map((rua) => (
+            <tr key={rua._id}  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {rua.nome}
+                </th>
+                <td className="px-6 py-4">
+                 <button
                   onClick={() => AlterarStatusBuracos(rua._id)}
                   className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
                 >
                   Arrumar buracos desta rua
                 </button>
-              </td>
+                </td>
             </tr>
-          ))}
-
-          {ruasFiltradas.length === 0 && (
-            <tr>
-              <td colSpan={3} className="text-center p-4 text-gray-500">
+     ))}
+{ruasFiltradas.length === 0 && (
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+              <td colSpan={3} className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 Nenhuma rua encontrada
               </td>
             </tr>
           )}
         </tbody>
-      </table>
+    </table>
+</div>
+
     </div>
   );
 }
+

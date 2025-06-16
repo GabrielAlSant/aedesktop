@@ -40,7 +40,7 @@ export default function Maps({ markers, location }: MapsProps) {
   };
 
   return (
-    <div className="w-[100%] h-[500px] p-6 ">
+    <div className="w-[100%] h-[500px] p-6">
       {location && (
         <MapContainer
           center={[location.latitude, location.longitude]}

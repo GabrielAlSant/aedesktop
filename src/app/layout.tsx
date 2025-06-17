@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "../../components/Header";
 import "leaflet/dist/leaflet.css";
+import { Toaster } from 'react-hot-toast';
 
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header />
+        <Toaster position="top-right" />
         <div className="ml-80">{children}</div>
       </body>
     </html>

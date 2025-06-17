@@ -5,12 +5,12 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import { useEffect } from "react";
 
-
 export interface MarkerType {
   _id: string;
   latitude: number;
   longitude: number;
-  descricao: string
+  descricao: string;
+  status: string;
 }
 
 interface MapsProps {
@@ -18,7 +18,11 @@ interface MapsProps {
   location: { latitude: number; longitude: number } | null;
 }
 
-function SetViewOnLocation({ location }: { location: { latitude: number; longitude: number } }) {
+function SetViewOnLocation({
+  location,
+}: {
+  location: { latitude: number; longitude: number };
+}) {
   const map = useMap();
 
   useEffect(() => {
@@ -31,11 +35,15 @@ function SetViewOnLocation({ location }: { location: { latitude: number; longitu
 }
 
 export default function Maps({ markers, location }: MapsProps) {
-  const imagePrioridade = () => {
+  const imagePrioridade = (status: string) => {
+    const iconUrl =
+      status === "aberto"
+        ? "../Prioridades/Aberto.png"
+        : "../Prioridades/Fechado.png";
+
     return new L.Icon({
-      iconUrl:
-         "../Prioridades/Prioridade Alta.png",
-         iconSize: [22, 22],
+      iconUrl,
+      iconSize: [22, 22],
     });
   };
 
@@ -66,9 +74,11 @@ export default function Maps({ markers, location }: MapsProps) {
             <Marker
               key={index}
               position={[marker.latitude, marker.longitude]}
-              icon={imagePrioridade()}
+              icon={imagePrioridade(marker.status.toLowerCase())}
             >
-              <Popup>Buraco {index + 1} - Reportado</Popup>
+              <Popup>
+                Buraco {index + 1} - {marker.status}
+              </Popup>
             </Marker>
           ))}
         </MapContainer>

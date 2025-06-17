@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import toast from 'react-hot-toast';
 
 
 type Props = {
@@ -37,10 +37,10 @@ export default function TabelaRuas({ dados }: Props) {
 
     const resultado = await response.json();
     console.log("Resposta do servidor:", resultado);
-    alert("Atualização enviada com sucesso!");
+    toast.success("Os status dos buracos dessa rua foram atualizados!");
   } catch (erro) {
     console.error(erro);
-    alert("Falha ao enviar atualização.");
+    toast.error("Falha ao arrumar os buracos.");
   }
 };
 

@@ -32,7 +32,7 @@ export default function Card({ TotalReport, TotalReportAberto, TotalReportFechad
         </p>
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-red-700">
          <div className="flex ml-10">
-           <Image src="/DashBoardIcons/abertos.png" width={40} height={20} alt="a"/> <div className="ml-2 mt-1.5">{TotalReportAberto}</div>
+           <Image src="/DashBoardIcons/abertos.png" width={40} height={20} alt="AbertosIcon"/> <div className="ml-2 mt-1.5">{TotalReportAberto}</div>
         </div>
         </h5>
       </a>

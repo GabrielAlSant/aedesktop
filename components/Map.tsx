@@ -1,4 +1,3 @@
-// components/Maps.tsx
 "use client";
 
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
@@ -38,23 +37,25 @@ export default function Maps({ markers, location }: MapsProps) {
   const imagePrioridade = (status: string) => {
     const iconUrl =
       status === "aberto"
-        ? "../Prioridades/Aberto.png"
-        : "../Prioridades/Fechado.png";
+        ? "/Prioridades/Aberto.png"
+        : "/Prioridades/Fechado.png";
 
     return new L.Icon({
       iconUrl,
-      iconSize: [22, 22],
+      iconSize: [28, 28],
+      iconAnchor: [14, 28],
+      popupAnchor: [0, -28],
     });
   };
 
   return (
-    <div className="w-[100%] h-[500px] p-6">
-      {location && (
+    <div className="w-full h-[480px] mt-4 rounded-xl border border-gray-300 shadow-xl bg-white dark:bg-gray-800">
+      {location ? (
         <MapContainer
           center={[location.latitude, location.longitude]}
           zoom={18}
           scrollWheelZoom={true}
-          style={{ height: "100%", width: "100%" }}
+          style={{ height: "100%", width: "100%", borderRadius: "12px" }}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -63,7 +64,8 @@ export default function Maps({ markers, location }: MapsProps) {
 
           <SetViewOnLocation location={location} />
 
-          <Marker
+           <Marker
+            key={location.latitude + location.longitude}
             position={[location.latitude, location.longitude]}
             icon={L.icon({ iconUrl: "/point.png", iconSize: [32, 32] })}
           >
@@ -72,16 +74,24 @@ export default function Maps({ markers, location }: MapsProps) {
 
           {markers.map((marker, index) => (
             <Marker
-              key={index}
+              key={marker._id}
               position={[marker.latitude, marker.longitude]}
               icon={imagePrioridade(marker.status.toLowerCase())}
             >
               <Popup>
-                Buraco {index + 1} - {marker.status}
+                <strong>Buraco {index + 1}</strong>
+                <br />
+                Status: {marker.status}
+                <br />
+                {marker.descricao}
               </Popup>
             </Marker>
           ))}
         </MapContainer>
+      ) : (
+        <div className="h-full flex items-center justify-center text-gray-600 dark:text-gray-300">
+          Obtendo localização...
+        </div>
       )}
     </div>
   );

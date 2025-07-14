@@ -20,7 +20,7 @@ export default function RootLayout({
       <body>
         <Header />
         <Toaster position="top-right" />
-        <div className="ml-80">{children}</div>
+        <div className="ml-64">{children}</div>
       </body>
     </html>
   );

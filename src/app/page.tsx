@@ -1,4 +1,3 @@
-// app/ver-buracos/page.tsx
 "use client";
 
 import dynamic from "next/dynamic";
@@ -35,6 +34,7 @@ export default function VerBuracos() {
     null
   );
 
+
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -54,43 +54,57 @@ export default function VerBuracos() {
     }
   }, []);
 
-  useEffect(() => {
-    fetch("https://projeto-vias-sjrv.vercel.app/RETORNARTODOSBURACOS")
-      .then((res) => res.json())
-      .then((json) => setMarkers(json));
-    console.log(markers);
-  }, [markers]);
 
   useEffect(() => {
-    fetch("https://projeto-vias-sjrv.vercel.app/TOTALREPORT")
+    fetch(
+      "https://projeto-vias-git-master-matheus-santos-andrades-projects.vercel.app/RETORNARTODOSBURACOS"
+    )
+      .then((res) => res.json())
+      .then((json) => setMarkers(json));
+  }, []);
+
+
+  useEffect(() => {
+    fetch(
+      "https://projeto-vias-git-master-matheus-santos-andrades-projects.vercel.app/TOTALREPORT"
+    )
       .then((res) => res.json())
       .then((json) => setDashBoardData(json));
   }, [markers]);
 
+  // Ruas críticas
   useEffect(() => {
-    fetch("https://projeto-vias-sjrv.vercel.app/SCOREVIAS")
+    fetch(
+      "https://projeto-vias-git-master-matheus-santos-andrades-projects.vercel.app/SCOREVIAS"
+    )
       .then((res) => res.json())
       .then((json) => setRuasCriticas(json));
   }, [markers]);
+
   return (
-    <div>
-      <div className="flex">
-        <div className="inline">
-          <div className="flex flex-wrap ">
-            {dashBoardData && (
+    <div className="p-4">
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex-1">
+          <div className="text-2xl font-extrabold">DashBoard</div>
+          <div className="flex flex-wrap gap-4 mb-4">
+            {dashBoardData ? (
               <Card
-                TotalReport={dashBoardData.TotalReport}
-                TotalReportAberto={dashBoardData.TotalReportAberto}
-                TotalReportFechado={dashBoardData.TotalReportFechado}
+                TotalReport={dashBoardData.TotalReport || 0}
+                TotalReportAberto={dashBoardData.TotalReportAberto || 0}
+                TotalReportFechado={dashBoardData.TotalReportFechado || 0}
+              />
+            ) : (
+              <Card
+                TotalReport={0}
+                TotalReportAberto={0}
+                TotalReportFechado={0}
               />
             )}
           </div>
-          <div className="inline">
-            {markers && <Maps markers={markers} location={location} />}
-          </div>
+          <Maps markers={markers} location={location} />
         </div>
 
-        <div className="inline">
+        <div className="w-full lg:w-[370px]">
           {ruasCriticas && <RuasCriticas ruas={ruasCriticas} />}
         </div>
       </div>

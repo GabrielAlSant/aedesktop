@@ -13,7 +13,7 @@ export default function Buracos(){
  const [ruas, setRuas] = useState<Rua[]>([]);
 
      useEffect(() => {
-        fetch("https://projeto-vias-sjrv.vercel.app/GETRUAS")
+        fetch("https://projeto-vias-git-master-matheus-santos-andrades-projects.vercel.app/GETRUAS")
           .then((res) => res.json())
           .then((json) => setRuas(json));
       }, []);

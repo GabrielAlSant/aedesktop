@@ -1,45 +1,53 @@
+import Image from "next/image";
+
 interface Props {
-  TotalReport: number;
-  TotalReportAberto: number;
-  TotalReportFechado: number;
-}
+  TotalReport: number | null;
+  TotalReportAberto: number | null;
+  TotalReportFechado: number | null;
+} 
 
 export default function Card({ TotalReport, TotalReportAberto, TotalReportFechado }: Props) {
   return (
     <div className="flex flex-wrap">
       <a
         href="#"
-        className="block w-40 p-6 m-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+        className="block w-58 p-6 mr-5 mt-5 mb-5 shadow-xl bg-white rounded-lg hover:bg-gray-100"
       >
-        <p className="font-normal text-gray-700 dark:text-gray-400">
+        <p className=" text-black text-xl text-center">
           Total de reportes
         </p>
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {TotalReport}
+        <h5 className="mb-2 text-2xl font-bold tracking-tight text-black">
+        <div className="flex ml-13">
+           <Image src="/DashBoardIcons/Todos.png" width={40} height={20} alt="a"/> <div className="mt-1.5">{TotalReport}</div>
+        </div>
         </h5>
       </a>
 
       <a
         href="#"
-        className="block w-40 p-6 m-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+        className="block w-58  p-6 m-5 bg-white  rounded-lg shadow-xl hover:bg-gray-100"
       >
-        <p className="font-normal text-gray-700 dark:text-gray-400">
+        <p className=" text-red-700 text-xl text-center">
           Reportes abertos
         </p>
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {TotalReportAberto}
+        <h5 className="mb-2 text-2xl font-bold tracking-tight text-red-700">
+         <div className="flex ml-10">
+           <Image src="/DashBoardIcons/abertos.png" width={40} height={20} alt="a"/> <div className="ml-2 mt-1.5">{TotalReportAberto}</div>
+        </div>
         </h5>
       </a>
 
       <a
         href="#"
-        className="block w-40 p-6 m-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+        className="block w-58  p-6 m-5 bg-white  rounded-lg shadow-xl hover:bg-gray-100"
       >
-        <p className="font-normal text-gray-700 dark:text-gray-400">
+        <p className=" text-green-700 text-xl text-center">
           Reportes fechados
         </p>
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {TotalReportFechado}
+        <h5 className="mb-2 text-2xl font-bold tracking-tight text-green-700">
+         <div className="flex ml-10">
+           <Image src="/DashBoardIcons/Fechados.png" width={40} height={20} alt="a"/> <div className="ml-2 mt-1">{TotalReportFechado}</div>
+        </div>
         </h5>
       </a>
     </div>

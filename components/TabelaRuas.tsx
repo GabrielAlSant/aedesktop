@@ -1,6 +1,5 @@
 import { useState } from "react";
-import toast from 'react-hot-toast';
-
+import toast from "react-hot-toast";
 
 type Props = {
   dados: Rua[];
@@ -21,91 +20,119 @@ export default function TabelaRuas({ dados }: Props) {
   );
 
   const AlterarStatusBuracos = async (ruaId: string) => {
-  try {
-    const response = await fetch("https://projeto-vias-sjrv.vercel.app/UPDATERUAS", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ruaId }),
-    });
+    try {
+      const response = await fetch(
+        "https://projeto-vias-git-master-matheus-santos-andrades-projects.vercel.app/UPDATERUAS",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ruaId }),
+        }
+      );
 
-    console.log(ruaId)
-    if (!response.ok) {
-      throw new Error("Erro ao enviar requisição");
+      if (!response.ok) {
+        throw new Error("Erro ao enviar requisição");
+      }
+
+      const resultado = await response.json();
+      console.log("Resposta do servidor:", resultado);
+      toast.success("Os status dos buracos dessa rua foram atualizados!");
+    } catch (erro) {
+      console.error(erro);
+      toast.error("Falha ao arrumar os buracos.");
     }
-
-    const resultado = await response.json();
-    console.log("Resposta do servidor:", resultado);
-    toast.success("Os status dos buracos dessa rua foram atualizados!");
-  } catch (erro) {
-    console.error(erro);
-    toast.error("Falha ao arrumar os buracos.");
-  }
-};
-
+  };
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
-      
-<div className=" mx-auto">   
-    <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-    <div className="relative">
-        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+      {/* Campo de busca */}
+      <div className="mb-4">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Filtrar por nome da rua"
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+            className="block w-full p-3 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg
+              className="w-5 h-5 text-gray-500 dark:text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-4.35-4.35M17 10a7 7 0 1 0-14 0 7 7 0 0 0 14 0Z"
+              />
             </svg>
+          </div>
         </div>
-        <input type="text"
-        placeholder="Filtrar por nome da rua"
-        value={filtro}
-        onChange={(e) => setFiltro(e.target.value)}
-         className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-        <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
-    </div>
-</div>
+      </div>
 
-
-    <div className="relative overflow-x-auto mt-5">
-    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      {/* Tabela */}
+      <div className="overflow-x-auto rounded-lg shadow-md">
+        <table className="w-full text-sm text-left ">
+          <thead className="text-xs uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
             <tr>
-                <th scope="col" className="px-6 py-3">
-                    Cidade
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Ação
-                </th>
+              <th scope="col" className="px-6 py-3">
+                Rua
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Ação
+              </th>
             </tr>
-        </thead>
-        <tbody>
-  {ruasFiltradas.map((rua) => (
-            <tr key={rua._id}  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {rua.nome}
-                </th>
-                <td className="px-6 py-4">
-                 <button
-                  onClick={() => AlterarStatusBuracos(rua._id)}
-                  className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-                >
-                  Arrumar buracos desta rua
-                </button>
+          </thead>
+          <tbody>
+            {ruasFiltradas.map((rua) => (
+              <tr
+                key={rua._id}
+                className="bg-white"
+              >
+                <td className="px-6 py-4 font-medium ">
+                  {rua.nome}
                 </td>
-            </tr>
-     ))}
-{ruasFiltradas.length === 0 && (
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-              <td colSpan={3} className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                Nenhuma rua encontrada
-              </td>
-            </tr>
-          )}
-        </tbody>
-    </table>
-</div>
-
+                <td className="px-6 py-4">
+                  <button
+                    onClick={() => AlterarStatusBuracos(rua._id)}
+                    className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9.75 3v1.5M14.25 3v1.5M3.75 6.75h16.5M4.5 6.75l.75 12a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25l.75-12"
+                      />
+                    </svg>
+                    Arrumar buracos
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {ruasFiltradas.length === 0 && (
+              <tr className="">
+                <td
+                  colSpan={2}
+                  className="px-6 py-4 text-center "
+                >
+                  Nenhuma rua encontrada.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
-

@@ -16,18 +16,29 @@ interface Props {
 
 export default function RuasCriticas({ ruas }: Props) {
   return (
-    <div className="h-[650px] mt-5 w-[500px] overflow-y-scroll border border-gray-300 rounded-lg p-4 bg-white dark:bg-gray-800 shadow-md">
-    <div className="text-white text-2xl">Ruas mais criticas</div>
+    <div className="h-[675px] mt-5 w-[370px] overflow-y-scroll shadow-xl  rounded-xl p-4 bg-[#fefefe]">
+      <div className="text-2xl font-semibold mb-4 border-b border-gray-400 dark:border-gray-600 pb-2">
+        Ruas mais críticas
+      </div>
       {ruas.map((rua) => (
         <div
           key={rua.id}
-          className="p-4 mb-4 border-b border-gray-200 dark:border-gray-700"
+          className="p-4 mb-4 bg-[#f9fafb]  rounded-lg shadow-sm hover:bg-[#f3f4f6] dark:hover:bg-[#c5c6c9] transition duration-200"
         >
-          <h2 className="text-lg font-bold text-gray-800 dark:text-white">{rua.nome}</h2>
-          <p className="text-sm text-gray-600 dark:text-gray-300">Buracos: {rua.totalBuracos}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-300">Confirmações: {rua.totalConfirmacoes}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-300">Criticidade: {rua.totalCriticidade}</p>
-          <p className="text-sm text-blue-600 dark:text-blue-400 font-semibold">Score: {rua.score}</p>
+          <h2 className="text-lg font-bold  mb-1">
+            {rua.nome}
+          </h2>
+          <div className="text-sm  space-y-1">
+            <p>Buracos: <span className="font-medium">{rua.totalBuracos}</span></p>
+            <p>Confirmações: <span className="font-medium">{rua.totalConfirmacoes}</span></p>
+            <p>Criticidade: <span className="font-medium">{rua.totalCriticidade}</span></p>
+            <p>
+              Score:{" "}
+              <span className="font-semibold text-[#b91c1c] dark:text-[#f87171]">
+                {rua.score}
+              </span>
+            </p>
+          </div>
         </div>
       ))}
     </div>

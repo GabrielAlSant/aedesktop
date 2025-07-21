@@ -26,7 +26,7 @@ function SetViewOnLocation({
 
   useEffect(() => {
     if (location) {
-      map.setView([location.latitude, location.longitude], 18);
+      map.setView([-22.24781, -53.34810], 18);
     }
   }, [location, map]);
 
@@ -66,7 +66,7 @@ export default function Maps({ markers, location }: MapsProps) {
 
            <Marker
             key={location.latitude + location.longitude}
-            position={[location.latitude, location.longitude]}
+            position={[-22.24781, -53.34810]}
             icon={L.icon({ iconUrl: "/point.png", iconSize: [32, 32] })}
           >
             <Popup>Você está aqui</Popup>

@@ -14,8 +14,6 @@ export interface Rua {
 
 export default function Buracos(){
  const [ruas, setRuas] = useState<Rua[]>([]);
- const [checking, setChecking] = useState(true);
-
 
      useEffect(() => {
         if (!process.env.NEXT_PUBLIC_DATABASE_URL) {

@@ -31,17 +31,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ login: username, senha: password }),
+          body: JSON.stringify({ email: username, senha: password }),
         }
       );
 
       if (!res.ok) return false;
-      const data: boolean = await res.json();
 
-      if (data) {
+      
+      const data: { login: boolean } = await res.json();
+      console.log(data);
+      if (data.login) {
         setIsAuthenticated(true);
         localStorage.setItem("isAuthenticated", "true");
-        router.push("/"); 
+        router.push("/");
         return true;
       } else {
         setIsAuthenticated(false);

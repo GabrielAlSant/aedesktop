@@ -1,8 +1,7 @@
 'use client'
 import TabelaRuas from "../../../components/TabelaRuas";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../context/AuthContext";
-import { useRouter } from "next/navigation";
+import ProtectedRoute from "../../context/protectRoute";
 
 
 
@@ -16,17 +15,6 @@ export interface Rua {
 export default function Buracos(){
  const [ruas, setRuas] = useState<Rua[]>([]);
  const [checking, setChecking] = useState(true);
-
- const { isAuthenticated } = useAuth();
- const router = useRouter();
-
-
- useEffect(() => {
-  if (!isAuthenticated) {
-    router.push("/login");
-  }
-}, [isAuthenticated, router]);
-
 
 
      useEffect(() => {
@@ -42,8 +30,10 @@ export default function Buracos(){
 
 
     return(
+      <ProtectedRoute>
         <div> 
             <TabelaRuas  dados={ruas} />
         </div>
+      </ProtectedRoute>
     )
 }

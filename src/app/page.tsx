@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import { MarkerType } from "../../components/Map";
 import Card from "../../components/Cards";
 import RuasCriticas from "../../components/RuasCriticas";
-import { useAuth } from "../context/AuthContext";
-import { useRouter } from "next/navigation";
+import ProtectedRoute from "../context/protectRoute";
 
 const Maps = dynamic(() => import("../../components/Map"), { ssr: false });
 
@@ -26,7 +25,6 @@ interface RuaInfo {
 }
 
 export default function VerBuracos() {
-  const { isAuthenticated } = useAuth();
   const [location, setLocation] = useState<{
     latitude: number;
     longitude: number;
@@ -37,13 +35,6 @@ export default function VerBuracos() {
     null
   );
 
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login");
-    }
-  }, [isAuthenticated, router]);
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -94,6 +85,7 @@ export default function VerBuracos() {
   }, [markers]);
 
   return (
+    <ProtectedRoute>
     <div className="p-4">
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1">
@@ -121,5 +113,6 @@ export default function VerBuracos() {
         </div>
       </div>
     </div>
+    </ProtectedRoute>
   );
 }

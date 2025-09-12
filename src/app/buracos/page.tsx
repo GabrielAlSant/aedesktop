@@ -13,9 +13,14 @@ export default function Buracos(){
  const [ruas, setRuas] = useState<Rua[]>([]);
 
      useEffect(() => {
-        fetch("https://projeto-vias-git-master-matheus-santos-andrades-projects.vercel.app/GETRUAS")
+        if (!process.env.NEXT_PUBLIC_DATABASE_URL) {
+            console.error('NEXT_PUBLIC_DATABASE_URL is not defined');
+            return;
+        }
+        fetch(`${process.env.NEXT_PUBLIC_DATABASE_URL}/GETRUAS`)
           .then((res) => res.json())
-          .then((json) => setRuas(json));
+          .then((json) => setRuas(json))
+          .catch(error => console.error('Error fetching data:', error));
       }, []);
 
 

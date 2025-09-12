@@ -56,9 +56,11 @@ export default function VerBuracos() {
 
 
   useEffect(() => {
-    fetch(
-      "https://projeto-vias-git-master-matheus-santos-andrades-projects.vercel.app/RETORNARTODOSBURACOS"
-    )
+    if (!process.env.NEXT_PUBLIC_DATABASE_URL) {
+      console.error('NEXT_PUBLIC_DATABASE_URL is not defined');
+      return;
+    }
+    fetch(`${process.env.NEXT_PUBLIC_DATABASE_URL}/RETORNARTODOSBURACOS`)
       .then((res) => res.json())
       .then((json) => setMarkers(json));
   }, []);
@@ -66,7 +68,7 @@ export default function VerBuracos() {
 
   useEffect(() => {
     fetch(
-      "https://projeto-vias-git-master-matheus-santos-andrades-projects.vercel.app/TOTALREPORT"
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/TOTALREPORT`
     )
       .then((res) => res.json())
       .then((json) => setDashBoardData(json));
@@ -75,7 +77,7 @@ export default function VerBuracos() {
   // Ruas críticas
   useEffect(() => {
     fetch(
-      "https://projeto-vias-git-master-matheus-santos-andrades-projects.vercel.app/SCOREVIAS"
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/SCOREVIAS`
     )
       .then((res) => res.json())
       .then((json) => setRuasCriticas(json));

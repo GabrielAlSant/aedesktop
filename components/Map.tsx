@@ -74,7 +74,7 @@ export default function Maps({ markers, location }: MapsProps) {
 
           {markers.map((marker, index) => (
             <Marker
-              key={marker._id}
+              key={index}
               position={[marker.latitude, marker.longitude]}
               icon={imagePrioridade(marker.status.toLowerCase())}
             >

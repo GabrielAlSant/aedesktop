@@ -39,7 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       
       const data: { login: boolean } = await res.json();
-      console.log(data);
+ 
       if (data.login) {
         setIsAuthenticated(true);
         localStorage.setItem("isAuthenticated", "true");

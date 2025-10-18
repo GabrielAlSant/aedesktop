@@ -61,7 +61,6 @@ export default function Maps({ markers, location }: MapsProps) {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
             />
 
-            {/* 🔹 Localização inicial */}
             <Marker
               position={[-22.24781, -53.34810]}
               icon={L.icon({ iconUrl: "/point.png", iconSize: [32, 32] })}
@@ -71,7 +70,7 @@ export default function Maps({ markers, location }: MapsProps) {
 
             {location && <SetViewOnLocation location={location} />}
 
-            {/* 🔹 Marcadores de buracos */}
+ 
             {markers.map((marker, index) => (
               <Marker
                 key={index}

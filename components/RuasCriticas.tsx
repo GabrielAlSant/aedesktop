@@ -13,7 +13,7 @@ interface Props {
 
 export default function RuasCriticas({ ruas }: Props) {
   return (
-    <div className="bg-[#121314] rounded-2xl shadow-xl h-[675px] p-5 overflow-y-auto border border-[#2a2a2d]">
+   <div className="bg-[#121314] rounded-2xl shadow-xl h-[675px] p-5 overflow-y-auto border border-[#2a2a2d] scrollbar-custom">
       <h2 className="text-xl font-semibold mb-4 text-gray-100">Ruas mais críticas</h2>
       <div className="space-y-4">
         {ruas.map((rua) => (

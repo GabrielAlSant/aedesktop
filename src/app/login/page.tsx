@@ -40,7 +40,7 @@ export default function LoginPage() {
     <div className="relative flex h-screen items-center justify-center overflow-hidden bg-black">
 
       <div
-        className="absolute inset-0 bg-cover bg-center blur-md scale-105"
+        className="absolute inset-0 bg-cover bg-center blur-sm scale-105"
         style={{
           backgroundImage: "url('/login/fundo.jpeg')", 
         }}

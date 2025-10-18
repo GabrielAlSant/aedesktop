@@ -29,7 +29,7 @@ export default function TabelaCompacta({ TotalReport, TotalReportAberto, TotalRe
   ];
 
   return (
-    <div className="bg-[#202124] p-4 rounded-xl shadow-md border border-[#2a2a2d]">
+    <div className="bg-[#121314] p-4 rounded-xl shadow-md border border-[#2a2a2d]">
       <table className="w-full text-left text-sm">
         <tbody>
           {rows.map((row, i) => (

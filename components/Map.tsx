@@ -17,7 +17,7 @@ interface MapsProps {
   location: { latitude: number; longitude: number } | null;
 }
 
-// Componente para centralizar o mapa na localização do usuário
+// Centraliza o mapa na localização inicial
 function SetViewOnLocation({ location }: { location: { latitude: number; longitude: number } }) {
   const map = useMap();
 
@@ -46,44 +46,49 @@ export default function Maps({ markers, location }: MapsProps) {
   };
 
   return (
-    <div className="w-full h-full bg-[#1a1b1f]">
+    <div className="w-full h-full bg-[#1a1b1f] relative">
       {location ? (
-        <MapContainer
-          center={[-22.24781, -53.34810]}
-          zoom={18}
-          scrollWheelZoom={true}
-          style={{ height: "100%", width: "100%" }}
-        >
-          <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-          />
-
-          <Marker
-            position={[-22.24781, -53.34810]}
-            icon={L.icon({ iconUrl: "/point.png", iconSize: [32, 32] })}
+        <div className="w-full h-full brightness-[2.05] contrast-[0.9] saturate-[0.9]">
+          <MapContainer
+            center={[-22.24781, -53.34810]}
+            zoom={18}
+            scrollWheelZoom={true}
+            style={{ height: "100%", width: "100%" }}
           >
-            <Popup>Localização inicial</Popup>
-          </Marker>
+     
+            <TileLayer
+              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+            />
 
-          {location && <SetViewOnLocation location={location} />}
-
-          {markers.map((marker, index) => (
+            {/* 🔹 Localização inicial */}
             <Marker
-              key={index}
-              position={[marker.latitude, marker.longitude]}
-              icon={imagePrioridade(marker.status.toLowerCase())}
+              position={[-22.24781, -53.34810]}
+              icon={L.icon({ iconUrl: "/point.png", iconSize: [32, 32] })}
             >
-              <Popup>
-                <strong>Buraco {index + 1}</strong>
-                <br />
-                Status: {marker.status}
-                <br />
-                {marker.descricao}
-              </Popup>
+              <Popup>Localização inicial</Popup>
             </Marker>
-          ))}
-        </MapContainer>
+
+            {location && <SetViewOnLocation location={location} />}
+
+            {/* 🔹 Marcadores de buracos */}
+            {markers.map((marker, index) => (
+              <Marker
+                key={index}
+                position={[marker.latitude, marker.longitude]}
+                icon={imagePrioridade(marker.status.toLowerCase())}
+              >
+                <Popup>
+                  <strong>Buraco {index + 1}</strong>
+                  <br />
+                  Status: {marker.status}
+                  <br />
+                  {marker.descricao}
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+        </div>
       ) : (
         <div className="h-full flex items-center justify-center text-gray-300">
           Obtendo localização...

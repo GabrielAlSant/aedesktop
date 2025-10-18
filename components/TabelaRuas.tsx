@@ -1,8 +1,11 @@
+"use client";
+
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 type Props = {
   dados: Rua[];
+  atualizarRuas: () => void;
 };
 
 export interface Rua {
@@ -12,9 +15,9 @@ export interface Rua {
   __v: number;
 }
 
-export default function TabelaRuas({ dados }: Props) {
+export default function TabelaRuas({ dados, atualizarRuas }: Props) {
   const [filtro, setFiltro] = useState("");
-  const [loadingButtons, setLoadingButtons] = useState<{[key: string]: boolean}>({});
+  const [loadingButtons, setLoadingButtons] = useState<{ [key: string]: boolean }>({});
 
   const ruasFiltradas = dados.filter((rua) =>
     rua.nome.toLowerCase().includes(filtro.toLowerCase())
@@ -22,42 +25,40 @@ export default function TabelaRuas({ dados }: Props) {
 
   const AlterarStatusBuracos = async (ruaId: string) => {
     if (!process.env.NEXT_PUBLIC_DATABASE_URL) {
-      console.error('NEXT_PUBLIC_DATABASE_URL is not defined');
-      toast.error('Erro de configuração: URL da API não encontrada');
+      console.error("NEXT_PUBLIC_DATABASE_URL is not defined");
+      toast.error("Erro de configuração: URL da API não encontrada");
       return;
     }
-    
+
     try {
-      setLoadingButtons(prev => ({ ...prev, [ruaId]: true }));
+      setLoadingButtons((prev) => ({ ...prev, [ruaId]: true }));
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_DATABASE_URL}/UPDATERUAS`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ruaId }),
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Erro ao enviar requisição");
-      }
+      if (!response.ok) throw new Error("Erro ao enviar requisição");
 
-      const resultado = await response.json();
-      console.log("Resposta do servidor:", resultado);
       toast.success("Os status dos buracos dessa rua foram atualizados!");
+
+      atualizarRuas();
+
     } catch (erro) {
       console.error(erro);
       toast.error("Falha ao arrumar os buracos.");
     } finally {
-      setLoadingButtons(prev => ({ ...prev, [ruaId]: false }));
+      setLoadingButtons((prev) => ({ ...prev, [ruaId]: false }));
     }
   };
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
-      {/* Campo de busca */}
+    <div className=" max-w-4xl mx-auto">
+
       <div className="mb-4">
         <div className="relative">
           <input
@@ -65,11 +66,11 @@ export default function TabelaRuas({ dados }: Props) {
             placeholder="Filtrar por nome da rua"
             value={filtro}
             onChange={(e) => setFiltro(e.target.value)}
-            className="block w-full p-3 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="block w-full p-3 pl-10 text-sm text-gray-200 border border-gray-700 rounded-lg bg-[#202124] focus:ring-orange-400 focus:border-orange-400 placeholder-gray-400"
           />
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
-              className="w-5 h-5 text-gray-500 dark:text-gray-400"
+              className="w-5 h-5 text-gray-400"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -85,42 +86,55 @@ export default function TabelaRuas({ dados }: Props) {
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-lg shadow-md">
-        <table className="w-full text-sm text-left ">
-          <thead className="text-xs uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
+  
+      <div className="overflow-x-auto rounded-lg shadow-md border border-[#2a2a2d]">
+        <table className="w-full text-sm text-left text-gray-200">
+          <thead className="text-xs uppercase bg-[#222329] text-gray-300">
             <tr>
-              <th scope="col" className="px-6 py-3">
-                Rua
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Ação
-              </th>
+              <th scope="col" className="px-6 py-3">Rua</th>
+              <th scope="col" className="px-6 py-3">Ação</th>
             </tr>
           </thead>
           <tbody>
             {ruasFiltradas.map((rua) => (
               <tr
                 key={rua._id}
-                className="bg-white"
+                className="bg-[#1a1b1f] hover:bg-[#2a2b30] transition-colors"
               >
-                <td className="px-6 py-4 font-medium ">
-                  {rua.nome}
-                </td>
+                <td className="px-6 py-4 font-medium">{rua.nome}</td>
                 <td className="px-6 py-4">
                   <button
-                    onClick={() => !loadingButtons[rua._id] && AlterarStatusBuracos(rua._id)}
+                    onClick={() =>
+                      !loadingButtons[rua._id] && AlterarStatusBuracos(rua._id)
+                    }
                     disabled={loadingButtons[rua._id]}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
-                      loadingButtons[rua._id] 
-                        ? 'bg-gray-400 cursor-not-allowed' 
-                        : 'bg-red-600 hover:bg-red-700 text-white'
+                      loadingButtons[rua._id]
+                        ? "bg-gray-600 cursor-not-allowed text-gray-200"
+                        : "bg-red-600 hover:bg-red-700 text-white"
                     }`}
                   >
                     {loadingButtons[rua._id] ? (
                       <>
-                        <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        <svg
+                          className="animate-spin h-4 w-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
                         </svg>
                         Processando...
                       </>
@@ -147,11 +161,8 @@ export default function TabelaRuas({ dados }: Props) {
               </tr>
             ))}
             {ruasFiltradas.length === 0 && (
-              <tr className="">
-                <td
-                  colSpan={2}
-                  className="px-6 py-4 text-center "
-                >
+              <tr>
+                <td colSpan={2} className="px-6 py-4 text-center text-gray-400">
                   Nenhuma rua encontrada.
                 </td>
               </tr>

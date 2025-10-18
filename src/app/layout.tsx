@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "../../components/Header";
 import "leaflet/dist/leaflet.css";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "../context/AuthContext";
@@ -19,9 +18,8 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AuthProvider>
-          <Header />
           <Toaster position="top-right" />
-          <div className="ml-64">{children}</div>
+          <div>{children}</div>
         </AuthProvider>
       </body>
     </html>

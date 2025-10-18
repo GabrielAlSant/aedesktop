@@ -17,11 +17,8 @@ interface MapsProps {
   location: { latitude: number; longitude: number } | null;
 }
 
-function SetViewOnLocation({
-  location,
-}: {
-  location: { latitude: number; longitude: number };
-}) {
+// Componente para centralizar o mapa na localização do usuário
+function SetViewOnLocation({ location }: { location: { latitude: number; longitude: number } }) {
   const map = useMap();
 
   useEffect(() => {
@@ -49,28 +46,27 @@ export default function Maps({ markers, location }: MapsProps) {
   };
 
   return (
-    <div className="w-full h-[480px] mt-4 rounded-xl border border-gray-300 shadow-xl bg-white dark:bg-gray-800">
+    <div className="w-full h-full bg-[#1a1b1f]">
       {location ? (
         <MapContainer
-          center={[location.latitude, location.longitude]}
+          center={[-22.24781, -53.34810]}
           zoom={18}
           scrollWheelZoom={true}
-          style={{ height: "100%", width: "100%", borderRadius: "12px" }}
+          style={{ height: "100%", width: "100%" }}
         >
           <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution="&copy; OpenStreetMap contributors"
+            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
           />
 
-          <SetViewOnLocation location={location} />
-
-           <Marker
-            key={location.latitude + location.longitude}
+          <Marker
             position={[-22.24781, -53.34810]}
             icon={L.icon({ iconUrl: "/point.png", iconSize: [32, 32] })}
           >
-            <Popup>Você está aqui</Popup>
+            <Popup>Localização inicial</Popup>
           </Marker>
+
+          {location && <SetViewOnLocation location={location} />}
 
           {markers.map((marker, index) => (
             <Marker
@@ -89,7 +85,7 @@ export default function Maps({ markers, location }: MapsProps) {
           ))}
         </MapContainer>
       ) : (
-        <div className="h-full flex items-center justify-center text-gray-600 dark:text-gray-300">
+        <div className="h-full flex items-center justify-center text-gray-300">
           Obtendo localização...
         </div>
       )}

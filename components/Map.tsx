@@ -10,6 +10,7 @@ export interface MarkerType {
   longitude: number;
   descricao: string;
   status: string;
+  data: string;
 }
 
 interface MapsProps {
@@ -17,13 +18,16 @@ interface MapsProps {
   location: { latitude: number; longitude: number } | null;
 }
 
-// Centraliza o mapa na localização inicial
-function SetViewOnLocation({ location }: { location: { latitude: number; longitude: number } }) {
+function SetViewOnLocation({
+  location,
+}: {
+  location: { latitude: number; longitude: number };
+}) {
   const map = useMap();
 
   useEffect(() => {
     if (location) {
-      map.setView([-22.24781, -53.34810], 18);
+      map.setView([-22.24781, -53.3481], 18);
     }
   }, [location, map]);
 
@@ -50,19 +54,18 @@ export default function Maps({ markers, location }: MapsProps) {
       {location ? (
         <div className="w-full h-full brightness-[2.05] contrast-[0.9] saturate-[0.9]">
           <MapContainer
-            center={[-22.24781, -53.34810]}
+            center={[-22.24781, -53.3481]}
             zoom={18}
             scrollWheelZoom={true}
             style={{ height: "100%", width: "100%" }}
           >
-     
             <TileLayer
               url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
             />
 
             <Marker
-              position={[-22.24781, -53.34810]}
+              position={[-22.24781, -53.3481]}
               icon={L.icon({ iconUrl: "/point.png", iconSize: [32, 32] })}
             >
               <Popup>Localização inicial</Popup>
@@ -70,7 +73,6 @@ export default function Maps({ markers, location }: MapsProps) {
 
             {location && <SetViewOnLocation location={location} />}
 
- 
             {markers.map((marker, index) => (
               <Marker
                 key={index}
@@ -78,11 +80,30 @@ export default function Maps({ markers, location }: MapsProps) {
                 icon={imagePrioridade(marker.status.toLowerCase())}
               >
                 <Popup>
-                  <strong>Buraco {index + 1}</strong>
-                  <br />
-                  Status: {marker.status}
-                  <br />
-                  {marker.descricao}
+                  <div className="font-sans text-center font-extrabold text-black">
+                    Reporte {index + 1}
+                  </div>
+
+                  <div className="font-sans font-extrabold ">
+                    {" "}
+                    <span className="text-black">Status:</span> {marker.status}
+                  </div>
+
+                  <div className="font-sans font-extrabold ">
+                    <span className="text-black">Descrição:</span>{" "}
+                    {marker.descricao}
+                  </div>
+
+                  <div className="font-sans font-extrabold">
+                    <span className="text-black">Data:</span>{" "}
+                    {new Date(marker.data).toLocaleString("pt-BR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </div>
                 </Popup>
               </Marker>
             ))}

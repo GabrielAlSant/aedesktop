@@ -37,10 +37,18 @@ interface TotalReportData {
   TotalReportFechado: number;
 }
 
+interface DashBoardData {
+  TotalReport: number;
+  TotalReportAberto: number;
+  TotalReportFechado: number;
+}
+
+
 export default function Dashboard() {
   const [historico, setHistorico] = useState<HistoricoData[]>([]);
   const [ruas, setRuas] = useState<RuaInfo[]>([]);
   const [data, setData] = useState<{ name: string; value: number }[]>([]);
+  const [dashBoardData, setDashBoardData] = useState<DashBoardData | null>(null);
 
   useEffect(() => {
     async function fetchTotalReport() {
@@ -63,6 +71,16 @@ export default function Dashboard() {
 
     fetchTotalReport();
   }, []);
+
+ const fetchDashBoardData = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_DATABASE_URL}/TOTALREPORT`);
+      const json = await res.json();
+      setDashBoardData(json);
+    } catch (err) {
+      console.error("Erro ao buscar dashboard:", err);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -106,6 +124,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchData();
+    fetchDashBoardData();
   }, []);
 
   return (
@@ -153,7 +172,7 @@ export default function Dashboard() {
                   Total de Buracos
                 </h3>
                 <p className="text-6xl font-extrabold mt-2 text-white">
-                  {ruas.reduce((acc, r) => acc + r.totalBuracos, 0)}
+               {dashBoardData?.TotalReport ?? 0}
                 </p>
               </div>
 

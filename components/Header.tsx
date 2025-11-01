@@ -12,11 +12,13 @@ export function Header() {
                  flex flex-col justify-between p-6 text-gray-200"
     >
       <div>
-        <h1 className="text-2xl font-bold text-white mb-8 tracking-tight">Gestão</h1>
+        <h1 className="text-2xl font-bold text-white mb-8 tracking-tight">
+          Gestão
+        </h1>
         <ul className="space-y-3">
           <li>
             <Link
-              href="/"
+              href="/dashboard"
               className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#1f1f23] transition"
             >
               <svg
@@ -29,6 +31,31 @@ export function Header() {
                 <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
               </svg>
               <span>Dashboard</span>
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              href="/"
+              className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#1f1f23] transition"
+            >
+            <svg
+                className="w-5 h-5 text-gray-400"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 20l-5.447-2.724A1 1 0 0 1 3 16.382V5.618a1 1 0 0 1 
+                     .553-.894L9 2m0 18l6-3m-6 3V2m6 15l5.447 2.724A1 1 0 0 0 
+                     21 18.382V7.618a1 1 0 0 0-.553-.894L15 4m0 13V4"
+                />
+              </svg>
+              <span>Ver Mapa</span>
             </Link>
           </li>
 
